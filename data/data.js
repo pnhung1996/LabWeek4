@@ -1,9 +1,8 @@
 const data = {
     "account_information": {
-      
       "bank": {
         "type": 1,
-        "total": 25000
+        "total": 2500
       },
       "credit": {
         "total": 1000,
@@ -57,7 +56,7 @@ const data = {
         "category": 1,
         "type": 2,
         "spend_money": 250,
-        "date_time": "2020/07/23",
+        "date_time": "2020/07/27",
         "production_name": "Chicken meat",
         "production_image": "https://cf.shopee.vn/file/4f6c547e84635f725bb5aa555fda8546"
       },
