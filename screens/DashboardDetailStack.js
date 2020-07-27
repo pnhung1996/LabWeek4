@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, TouchableOpacity
 function FlatListHeader({ category, navigation }) {
     return (
         <View style={styles.headerContainer}>
-            <TouchableOpacity onPress = {()=>navigation.navigate('Dashboardstack')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Dashboardstack')}>
                 <Image source={require('../assets/back.png')} style={styles.imageStyle} />
             </TouchableOpacity>
             <Text style={{ alignSelf: 'center', position: 'absolute', fontSize: 27 }}>{category}</Text>
@@ -13,10 +13,13 @@ function FlatListHeader({ category, navigation }) {
 }
 
 function FlatListItem({ item }) {
-    return(
-        <View style = {styles.itemContainer}>
-            <Image source = {{uri : item.production_image}} style = {styles.itemImageSytle}/>
-            <View></View>
+    return (
+        <View style={styles.itemContainer}>
+            <Image source={{ uri: item.production_image }} style={styles.itemImageSytle} />
+            <View style={styles.inforStyle}>
+                <Text>You bought {item.production_name} for {item.spend_money}$</Text>
+                <Text style = {{color : "#d7d7d7"}}>{item.date_time}</Text>
+            </View>
         </View>
     )
 }
@@ -26,10 +29,10 @@ export default function DashboardDetailStack({ navigation, route }) {
     return (
         <SafeAreaView style={styles.container}>
             <FlatList style={styles.listContainer}
-                data = {data}
+                data={data}
                 ListHeaderComponent={FlatListHeader({ category, navigation })}
-                renderItem={({ item }) => FlatListItem({ item })} 
-                keyExtractor = {item=>item.id.toString()}/>
+                renderItem={({ item }) => FlatListItem({ item })}
+                keyExtractor={item => item.id.toString()} />
         </SafeAreaView>
     )
 }
@@ -60,21 +63,28 @@ const styles = StyleSheet.create({
         width: '100%',
         padding: 10,
     },
-    itemContainer : {
-        width : '100%',
-        height : 80,
-        backgroundColor : "#ffffff",
-        marginTop : 20,
-        borderRadius : 10,
-        flexDirection : 'row',
-        justifyContent : 'flex-start',
-        alignItems : 'center',
-        padding : 10
+    itemContainer: {
+        width: '100%',
+        height: 80,
+        backgroundColor: "#ffffff",
+        marginTop: 20,
+        borderRadius: 10,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        padding: 10
     },
-    itemImageSytle : {
-        width : 60,
-        height : '100%',
-        borderRadius : 30,
-        resizeMode : 'cover'
+    itemImageSytle: {
+        width: 60,
+        height: '100%',
+        borderRadius: 30,
+        resizeMode: 'cover'
+    },
+    inforStyle: {
+        flex: 1,
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        marginLeft : 15
     }
 });

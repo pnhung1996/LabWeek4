@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, Alert, TouchableOpacity, ImageBackground } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, SafeAreaView, FlatList, Image, Alert, TouchableOpacity, ImageBackground, Modal } from 'react-native';
 
 import data from '../data/data';
 
@@ -16,13 +16,15 @@ function AccountItem(props) {
     )
 }
 
-function FlatListHeader() {
+function FlatListHeader({ setModalVisible }) {
     return (
         <View style={styles.headerContainer}>
             <View style={styles.actionBarStyle}>
                 <Image source={require('../assets/Group2563x.png')} style={styles.groupIconStyle} />
                 <Text style={{ fontSize: 25 }}>Dashboard</Text>
-                <Image source={require('../assets/Group2553x.png')} style={styles.groupIconStyle} />
+                <TouchableOpacity onPress={() => setModalVisible(true)}>
+                    <Image source={require('../assets/Group2553x.png')} style={styles.groupIconStyle} />
+                </TouchableOpacity>
             </View>
             <Text style={{ alignSelf: 'flex-start', fontSize: 23, marginTop: 50 }}>List of Account</Text>
             <View style={styles.accountContainer}>
@@ -110,6 +112,7 @@ function listItem({ item, groceries, clothes, rental, navigation }) {
 }
 
 export default function DashboardStack({ navigation }) {
+    const [modalVisible, setModalVisible] = useState(false);
     const groceries = data.detail.filter(item => item.category === 1).sort((a, b) => compare(a, b));
     const clothes = data.detail.filter(item => item.category === 2).sort((a, b) => compare(a, b));
     const rental = data.detail.filter(item => item.category === 3).sort((a, b) => compare(a, b));
@@ -118,12 +121,26 @@ export default function DashboardStack({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <FlatList style={styles.listStyle}
-                ListHeaderComponent={FlatListHeader}
+                ListHeaderComponent={FlatListHeader({ setModalVisible })}
                 data={lastRecord}
                 renderItem={({ item }) => listItem({ item, groceries, clothes, rental, navigation })}
                 keyExtractor={item => item.id.toString()}
             >
             </FlatList>
+            <Modal animationType='slide'
+                transparent={false}
+                visible={modalVisible}
+            >
+                <View style = {styles.modalStyle}>
+                    <Text style = {{fontSize : 30}}>
+                        Notifications
+                    </Text>
+                    <TouchableOpacity style = {{width : 250, height : 50, justifyContent : 'center', alignItems : 'center', backgroundColor : '#ffffff', borderRadius : 10}}
+                    onPress = {()=>setModalVisible(false)}>
+                        <Image source = {require('../assets/close.png')} style = {{height : 30, width : 30}}/>
+                    </TouchableOpacity>
+                </View>
+            </Modal>
         </SafeAreaView>
     )
 }
@@ -228,5 +245,13 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         width: '100%',
         height: 88
+    },
+    modalStyle : {
+        flex: 1,
+        backgroundColor: '#F2F4F7',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 10,
+        flexDirection : 'column'
     }
 });
